@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Surprise</title>
+<style>
+    body {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background: pink;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        flex-direction: column;
+        position: relative;
+    }
+    h1 {
+        text-align: center;
+        color: red;
+        font-size: 2.5em;
+        margin-bottom: 40px;
+        z-index: 2;
+    }
+    #buttons {
+        display: flex;
+        gap: 50px;
+        z-index: 2;
+        position: relative;
+    }
+    button {
+        padding: 15px 30px;
+        font-size: 1.5em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+    }
+    #yes {
+        background-color: #ff4d6d;
+        color: white;
+        z-index: 2;
+    }
+    #no {
+        background-color: #fff;
+        color: red;
+        border: 2px solid red;
+        position: absolute;
+        left: 200px;
+        top: 0px;
+        z-index: 2;
+    }
+    #message {
+        display: none;
+        text-align: center;
+        margin-top: 30px;
+        font-size: 1.8em;
+        color: purple;
+        animation: fadeIn 2s ease-in-out forwards;
+        z-index: 2;
+    }
+    #cartoon {
+        display: none;
+        position: absolute;
+        bottom: 20px;
+        width: 120px;
+        animation: dance 1s infinite alternate;
+        z-index: 1;
+    }
+    @keyframes dance {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(15deg); }
+        100% { transform: translateY(0) rotate(-15deg); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    /* flying hearts */
+    .heart {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: red;
+        transform: rotate(-45deg);
+        animation: floatUp linear infinite;
+        z-index: 0;
+    }
+    .heart::before,
+    .heart::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: red;
+        border-radius: 50%;
+    }
+    .heart::before { top: -15px; left: 0; }
+    .heart::after { left: 15px; top: 0; }
+    @keyframes floatUp {
+        0% { transform: translateY(0) rotate(-45deg); opacity:1; }
+        100% { transform: translateY(-600px) rotate(-45deg); opacity:0; }
+    }
+</style>
+</head>
+<body>
+
+<h1>Will You Be My Valentine Areen?</h1>
+
+<div id="buttons">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+</div>
+
+<div id="message">
+    💖 Congratulations! You choose the right person. 💖<br>
+    From Fahim: I Love You Areen! 🌹
+</div>
+
+<!-- Use local cartoon image -->
+<img id="cartoon" src="cartoon.gif" alt="Dancing Cartoon">
+
+<script>
+const noBtn = document.getElementById('no');
+const yesBtn = document.getElementById('yes');
+const message = document.getElementById('message');
+const cartoon = document.getElementById('cartoon');
+const body = document.body;
+
+// Move No button randomly
+function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+}
+
+// No button evasion on hover/touch
+noBtn.addEventListener('mouseenter', moveNoButton);
+noBtn.addEventListener('touchstart', moveNoButton);
+
+// Yes button click
+yesBtn.addEventListener('click', () => {
+    document.getElementById('buttons').style.display = 'none';
+    message.style.display = 'block';
+    cartoon.style.display = 'block';
+    createHearts();
+});
+
+// Create flying hearts
+function createHearts() {
+    for(let i=0; i<30; i++){
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+        heart.style.animationDelay = (Math.random() * 2) + 's';
+        body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }
+}
+</script>
+
+</body>
+</html>
